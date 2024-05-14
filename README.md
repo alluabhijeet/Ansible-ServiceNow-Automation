@@ -1,4 +1,4 @@
-## How to use this playbook to create Change Requests with CTasks ?
+## How to use this playbook to programatically create Change Requests with linked CTasks ?
 
 Pre-Requisites:
 - Ansibe-Core Installed
