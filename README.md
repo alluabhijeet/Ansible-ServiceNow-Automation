@@ -1,7 +1,7 @@
 ## How to use this playbook to programatically create Change Requests with linked CTasks ?
 
 Pre-Requisites:
-- Ansibe-Core Installed
+- Ansibe-Core
 
 
 Install the Ansible Collection for ServiceNow ITSM
