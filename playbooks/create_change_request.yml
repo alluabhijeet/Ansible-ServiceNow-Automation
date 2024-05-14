@@ -1,0 +1,92 @@
+---
+- name: Create Multiple Change Requests and Associated Tasks in ServiceNow
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ../vars/change_request.yml
+  vars_prompt:
+    - name: host
+      prompt: ServiceNow URL
+      private: false
+    - name: username
+      prompt: Username
+      private: false
+    - name: password
+      prompt: Password
+
+  tasks:
+    - name: Create change request
+      servicenow.itsm.change_request:
+        instance:
+          host: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+
+        short_description: "{{ short_description }}"
+        description: "{{ description }}"
+        type: "{{ type }}"
+        state: "{{ state }}"
+        category: "{{ category }}"
+        requested_by: "{{ requested_by }}"
+        assignment_group: "{{ assignment_group }}"
+        impact: "{{ impact }}"
+        urgency: "{{ urgency }}"
+        other:
+          service_offering: "{{ service_offering }}"
+          cmdb_ci: "{{ configuration_item }}"
+          assigned_to: "{{ assigned_to}}"
+          implementation_plan: "{{ implementation_plan }}"
+          justification: "{{ justification }}"
+          backout_plan: "{{ backout_plan }}"
+          risk_impact_analysis: "{{ risk_impact_analysis }}"
+          test_plan: "{{ test_plan }}"
+          validation: "{{ validation_plan }}"
+          start_date: "{{ expected_start }}"
+          end_date: "{{ expected_end }}"
+          
+      register: change_request_output
+
+    - name: Set change request number as a fact
+      ansible.builtin.set_fact:
+        change_request_number: "{{ change_request_output.record.number }}"
+        cacheable: yes
+      when: change_request_output is defined and change_request_output.record is defined
+
+    - name: Create a change task
+      servicenow.itsm.change_request_task:
+        instance:
+          host: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+
+        configuration_item: "{{ item.configuration_item }}"
+        change_request_number: "{{ change_request_output.record.number }}"
+        type: "{{ item.type }}"
+        state: "{{ item.state }}"
+        assigned_to: "{{ item.assigned_to }}"
+        assignment_group: "{{ item.assignment_group }}"
+        short_description: "{{ item.short_description }}"
+        description: "{{ item.description }}"
+        planned_start_date: "{{ item.expected_start }}"
+        planned_end_date: "{{ item.expected_end }}"
+      loop: "{{ ctasks }}"
+      when: change_request_output is succeeded
+      register: change_task_results
+
+    - name: Initialize an empty list for change task numbers
+      set_fact:
+        change_task_numbers: []
+
+    - name: Extract and set change task numbers
+      set_fact:
+        change_task_numbers: "{{ change_task_numbers + [item.record.number] }}"
+      loop: "{{ change_task_results.results }}"
+      no_log: true
+
+    - name: Show the Change Request Number
+      debug:
+        var: change_request_output.record.number
+
+    - name: Show the list of change task numbers
+      debug:
+        var: change_task_numbers

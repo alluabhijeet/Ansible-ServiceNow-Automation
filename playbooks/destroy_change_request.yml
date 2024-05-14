@@ -1,0 +1,16 @@
+---
+- name: Destory the resources created
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Delete change request
+      servicenow.itsm.change_request_task:
+        instance:
+          host: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        state: absent
+        change_request_number: "{{ change_request_number }}"
+        number: "{{ change_request_number }}"
+      when: change_request_number is defined
