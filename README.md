@@ -62,4 +62,7 @@ Run the playbook
 
 ```bash
  ansible-playbook playbooks/create_change_request.yml
-``` 
+```
+
+> [!NOTE]  
+> For each new Change Request, create a new Git branch
