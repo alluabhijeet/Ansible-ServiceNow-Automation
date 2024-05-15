@@ -15,8 +15,6 @@ Populate the Change Request and corresponding CTasks as follows
 ```yaml
 # vars/change_request.yml
 
-# vars/change_request.yml
-
 - description: Migrate Dynatrace OneAgents to SaaS
   short_description: Dynatrace OneAgents Migration to SaaS
   state: new
