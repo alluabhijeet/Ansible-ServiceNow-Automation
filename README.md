@@ -66,3 +66,6 @@ Run the playbook
 
 > [!NOTE]  
 > For each new Change Request, create a new Git branch
+
+> [!TIP]
+> Ability to cleanup and destroy the Change Requests created is work in progress
