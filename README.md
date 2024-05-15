@@ -28,7 +28,8 @@ Populate the Change Request and corresponding CTasks as follows
   urgency: high
   assignment_group: Monitoring Management
   justification: |
-    The migration to Dynatrace SaaS will enhance monitoring capabilities, improve scalability, and reduce maintenance overhead. 
+    The migration to Dynatrace SaaS will enhance monitoring capabilities, improve scalability,
+    and reduce maintenance overhead. 
     It will also provide access to the latest features and updates.
   implementation_plan: |
     1. Review existing Dynatrace OneAgent configurations.
@@ -40,11 +41,10 @@ Populate the Change Request and corresponding CTasks as follows
     7. Decommission on-premise Dynatrace environment.
     8. Monitor performance post-migration.
   risk_impact_analysis: |
-    Risk:
+    Risk
     - Possible downtime during migration.
     - Potential configuration issues post-migration.
-    
-    Impact:
+    Impact
     - High impact due to potential monitoring disruptions affecting all services.
   backout_plan: |
     1. Revert OneAgent configurations to point to the on-premise Dynatrace environment.
