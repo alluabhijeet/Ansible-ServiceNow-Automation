@@ -27,7 +27,9 @@ Populate the Change Request and corresponding CTasks as follows
   impact: low
   urgency: low
   assignment_group: Change Management
-  justification: Justification Here
+  justification: | 
+    Justification
+    Here
   implementation_plan: Implementation Here
   risk_impact_analysis: Risk and Impacted Analysis Here
   backout_plan: Backout Plan Here
