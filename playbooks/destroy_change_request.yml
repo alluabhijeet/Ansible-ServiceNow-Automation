@@ -2,6 +2,17 @@
 - name: Destory the resources created
   hosts: localhost
   gather_facts: no
+  vars_files:
+    - ../vars/change_request.yml
+  vars_prompt:
+    - name: host
+      prompt: ServiceNow URL
+      private: false
+    - name: username
+      prompt: Username
+      private: false
+    - name: password
+      prompt: Password
 
   tasks:
     - name: Delete change request
@@ -14,3 +25,9 @@
         change_request_number: "{{ change_request_number }}"
         number: "{{ change_request_number }}"
       when: change_request_number is defined
+      register: state
+
+
+    - name: Show the list of Change Task numbers
+      debug:
+        var: state

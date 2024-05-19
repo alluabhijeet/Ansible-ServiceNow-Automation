@@ -15,7 +15,7 @@
       prompt: Password
 
   tasks:
-    - name: Create change request
+    - name: Create Change Request
       servicenow.itsm.change_request:
         instance:
           host: "{{ host }}"
@@ -46,13 +46,13 @@
           
       register: change_request_output
 
-    - name: Set change request number as a fact
+    - name: Set Change Request number as a fact
       ansible.builtin.set_fact:
         change_request_number: "{{ change_request_output.record.number }}"
         cacheable: yes
       when: change_request_output is defined and change_request_output.record is defined
 
-    - name: Create a change task
+    - name: Create Change Tasks and link them to the Change Request
       servicenow.itsm.change_request_task:
         instance:
           host: "{{ host }}"
@@ -73,11 +73,11 @@
       when: change_request_output is succeeded
       register: change_task_results
 
-    - name: Initialize an empty list for change task numbers
+    - name: Initialize an empty list to store Change Task numbers
       set_fact:
         change_task_numbers: []
 
-    - name: Extract and set change task numbers
+    - name: Store Change Task numbers
       set_fact:
         change_task_numbers: "{{ change_task_numbers + [item.record.number] }}"
       loop: "{{ change_task_results.results }}"
@@ -87,6 +87,6 @@
       debug:
         var: change_request_output.record.number
 
-    - name: Show the list of change task numbers
+    - name: Show the list of Change Task numbers
       debug:
         var: change_task_numbers
